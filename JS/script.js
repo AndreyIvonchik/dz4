@@ -16,9 +16,12 @@ class ToDo{
             this.list += 1;
             this.createElement(task, data);
         }
-        else{
-            alert("Не заполнено!");
+        else if(!task && !data){
+            document.getElementById("taskIn").classList.add("invalid");
+            document.getElementById("dataIn").classList.add("invalid");
         }
+        else if(!task) document.getElementById("taskIn").classList.add("invalid");
+        else if(!data) document.getElementById("dataIn").classList.add("invalid");
     }
 
     createElement(task, data){
