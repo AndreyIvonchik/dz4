@@ -2,12 +2,10 @@
 
 class ToDo {
   addTask() {
-    var task = document.getElementById("taskIn").value;
-    var data = document.getElementById("dataIn").value;
+    var task = document.getElementById("taskIn");
+    var data = document.getElementById("dataIn");
 
-    if (task && data) {
-      document.getElementById("taskIn").value = "";
-      document.getElementById("dataIn").value = "";
+    if (task.value && data.value) {
       document.getElementById("lable-task").classList.remove("active");
       document.getElementById("lable-data").classList.remove("active");
       if (!this.list) {
@@ -15,13 +13,14 @@ class ToDo {
         document.getElementById("no-tasks").style.display = "none";
       }
       this.list += 1;
-      this.createElement(task, data);
-    } else if (!task && !data) {
-      document.getElementById("taskIn").classList.add("invalid");
-      document.getElementById("dataIn").classList.add("invalid");
-    } else if (!task)
-      document.getElementById("taskIn").classList.add("invalid");
-    else if (!data) document.getElementById("dataIn").classList.add("invalid");
+      this.createElement(task.value, data.value);
+      task.value = "";
+      data.value = "";
+    } else if (!task.value && !data.value) {
+      task.classList.add("invalid");
+      data.classList.add("invalid");
+    } else if (!task.value) task.classList.add("invalid");
+    else if (!data.value) data.classList.add("invalid");
   }
 
   createElement(task, data) {
@@ -29,14 +28,13 @@ class ToDo {
 
     ul.insertAdjacentHTML(
       "beforeEnd",
-      `<li id="li-${this.list}" class="collection-item">
+      `<li id="li" class="collection-item">
             <div class="row">
             <div class="col s1">
                 <label>
                 <input
-                    id="checkbox-${this.list}"
-                    type="checkbox"
-                    onchange="start.checkboxClick()"/>
+                    id="checkbox"
+                    type="checkbox">
                 <span></span>
                 </label>
             </div>
@@ -44,9 +42,8 @@ class ToDo {
             <div class="col s3">${data}</div>
             <div class="col s1">
                 <button
-                class="btn-floating btn-small waves-effect waves-light red"
-                onclick="start.deleteTask()">
-                <i id="delete-${this.list}" class="material-icons">delete</i>
+                class="btn-floating btn-small waves-effect waves-light red">
+                <i id="delete" class="material-icons">delete</i>
                 </button>
             </div>
             </div>
@@ -65,9 +62,7 @@ class ToDo {
   }
 
   deleteTask() {
-    var target = event.target;
-    var id = +target.id.split("-")[1];
-    var element = document.getElementById("li-" + id);
+    var element = event.target.closest("#li");
 
     element.remove();
     if (!document.getElementById("ul").children[2]) {
@@ -77,17 +72,26 @@ class ToDo {
   }
 
   checkboxClick() {
-    var target = event.target;
-    var id = +target.id.split("-")[1];
-    var element = document.getElementById("li-" + id);
+    var element = event.target.closest("#li");
 
     element.classList.toggle("green");
     element.classList.toggle("lighten-3");
   }
 }
 
-let start = new ToDo();
+var start = new ToDo();
+var add = document.getElementById("add");
+var clear = document.getElementById("clear");
 
+add.addEventListener("click", start.addTask.bind(start));
+clear.addEventListener("click", start.clearAll.bind(start));
+document.addEventListener("click", function(element) {
+  if (element.target && element.target.id == "delete") {
+    start.deleteTask();
+  } else if (element.target && element.target.id == "checkbox") {
+    start.checkboxClick();
+  }
+});
 document.addEventListener("DOMContentLoaded", function() {
   var elems = document.querySelectorAll(".datepicker");
   var instances = M.Datepicker.init(elems, FormData);

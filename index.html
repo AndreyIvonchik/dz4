@@ -22,19 +22,20 @@
           <div class="row">
             <div class="input-field col s8">
               <i class="material-icons prefix">textsms</i>
-              <input id="taskIn" type="text" class="validate"/>
+              <input id="taskIn" type="text" class="validate" required>
               <label id="lable-task" for="taskIn">New task</label>
             </div>
             <div class="input-field col s4">
               <i class="material-icons prefix">date_range</i>
-              <input id="dataIn" type="text" class="datepicker validate"/>
+              <input id="dataIn" type="text" class="datepicker validate" required>
               <label id="lable-data" for="dataIn">Data</label>
             </div>
           </div>
-          <button id="add" class="btn waves-effect waves-light blue-grey" onclick="start.addTask()">Add
+        
+          <button id="add" class="btn waves-effect waves-light blue-grey">Add
             <i class="material-icons left">add_box</i>
           </button>
-          <button id="clear" class="btn waves-effect waves-light blue-grey" onclick="start.clearAll()">Clear all 
+          <button id="clear" class="btn waves-effect waves-light blue-grey">Clear all 
             <i class="material-icons left">delete_sweep</i>
           </button>
         </div>
